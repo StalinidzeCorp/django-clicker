@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from .serializers import UserSerializer, UserSerializerDetail
 from rest_framework import generics
 from .forms import UserForm
+from clicker.models import Core
 
 
 # Create your views here.
@@ -24,7 +25,8 @@ class UserDetail(generics.RetrieveAPIView):
 def index(request):
     user = User.objects.filter(id=request.user.id)
     if len(user) != 0:
-        return render(request, 'index.html')
+        core = Core.objects.get(user=request.user)
+        return render(request, 'index.html', {'core': core})
     else:
         return redirect('login')
 
@@ -36,6 +38,8 @@ class user_login(APIView):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            core = Core(user=user)
+            core.save()
             return redirect('index')
         else:
             return render(request, 'login.html', {'invalid': True})

@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="{% static '/css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <title>Title </title>
+  </head>
+  <body>
+    <div class="header">
+      <h3 class="site-name">REGISTRATION</h3>
+       
+      </div>
+    <main>
+    <div align="center">
+      <form method="post" action="{% url 'register' %}">
+        {%csrf_token%}
+        {{form.as_p}}
+        <input type="submit" value="SIGN UP">
+        </form>
+        {% if invalid%}
+       <p>This username is already taken! Please choose another.</p>
+       {% endif %}
+    </div>
+    <br>
+    <div align="center">Or you can <a href="/login">sign in</a></div>
+  </main>
+  </body>
+</html>
