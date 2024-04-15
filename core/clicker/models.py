@@ -8,12 +8,13 @@ class Core(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     coins = models.IntegerField(default=0)
     power = models.IntegerField(default=1)
-    lvl = models.IntegerField(default=0)
+    lvl = models.IntegerField(default=1)
     auto_click_power = models.IntegerField(default=0)
 
     # Метод для установки текущего количества монет пользователя.
-    def set_coins(self, coins, commit=True):
-        self.coins = coins  # Теперь мы просто присваиваем входящее значение монет.
+    def set_coins(self, coins, auto_click_power, commit=True):
+        self.coins = coins
+        self.auto_click_power = auto_click_power# Теперь мы просто присваиваем входящее значение монет.
         is_levelupdated = self.is_levelup()  # Проверка на повышение уровня.
         boost_type = self.get_boost_type()  # Получение типа буста, который будет создан при повышении уровня.
 

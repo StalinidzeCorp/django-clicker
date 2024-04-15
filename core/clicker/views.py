@@ -43,16 +43,15 @@ class BoostViewSet(viewsets.ModelViewSet):
 
 @api_view(['POST'])
 def update_coins(request):
-    coins = request.data['current_coins']  # Значение current_coins будем присылать в теле запроса.
+    coins = request.data['current_coins']
+    auto_click_power = request.data['auto_click_power']# Значение current_coins будем присылать в теле запроса.
     core = Core.objects.get(user=request.user)
 
-    is_levelup, boost_type = core.set_coins(
-        coins)  # Метод set_coins скоро добавим в модель. Добавили boost_type для создания буста.
+    is_levelup, boost_type = core.set_coins(coins, auto_click_power)
 
     # Дальнейшая логика осталась прежней, как в call_click
     if is_levelup:
-        Boost.objects.create(core=core, price=core.coins, power=core.lvl * 2,
-                             type=boost_type)  # Создание буста. Добавили атрибут type.
+        Boost.objects.create(core=core, price=core.coins, power=core.lvl * 2, type=boost_type)  # Создание буста. Добавили атрибут type.
     core.save()
 
     return Response({
