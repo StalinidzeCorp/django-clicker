@@ -13,8 +13,23 @@
       <div class="logout"><a href="/logout">LOGOUT</a></div>
       </header>
      <main>
-			<div id='coins'>{{core.coins}}</div>
+         <div class="container">
+             <div id='coins'>{{core.coins}}</div>
 			<button onclick='call_click()'>Нажми на меня</button>
+             <p>Невероятная мощь клика: <span id="click_power">{{core.power}}</span></p>
+         </div>
+         <aside class="boosts" id="boosts">
+             <h3>Бусты</h3>
+             <div class="boosts-holder" id="boosts-holder">
+                 {% for boost in boosts %}
+                 <button class="boost" id="boost_{{boost.id}}" onclick="buy_boost({{boost.id}})">
+                     <p>Уровень: <span id="boost_level">{{boost.lvl}}</span></p>
+                     <p>+ <span id="boost_power">{{boost.power}}</span></p>
+                     <p><span id="boost_price">{{boost.price}}</span></p>
+                 </button>
+                 {% endfor %}
+             </div>
+         </aside>
 
     </main>
     

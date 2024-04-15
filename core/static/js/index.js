@@ -38,7 +38,7 @@ function add_boost(parent, boost) {
     button.setAttribute('id', `boost_${boost.id}`)
     button.setAttribute('onclick', `buy_boost(${boost.id})`)
     button.innerHTML = `
-        <p>Уровень: <span id="boost_level">${boost.level}</span></p>
+        <p>Уровень: <span id="boost_lvl">${boost.lvl}</span></p>
         <p>+<span id="boost_power">${boost.power}</span></p>
         <p>Цена: <span id="boost_price">${boost.price}</span></p>
     `
@@ -76,21 +76,12 @@ function buy_boost(boost_id) {
     }).then(response => {
         if (response.error) return
         const old_boost_stats = response.old_boost_stats
-        const new_boost_stats = response.new_boost_stats
 
         const coinsElement = document.getElementById('coins')
         coinsElement.innerText = Number(coinsElement.innerText) - old_boost_stats.price
         const powerElement = document.getElementById('click_power')
         powerElement.innerText = Number(powerElement.innerText) + old_boost_stats.power
 
-        update_boost(new_boost_stats) // Обновляем буст на фронтике
+        get_boosts() // Обновляем буст на фронтике
     }).catch(err => console.log(err))
-}
-
-/** Функция для обновления буста на фронтике */
-function update_boost(boost) {
-    const boost_node = document.getElementById(`boost_${boost.id}`)
-    boost_node.querySelector('#boost_level').innerText = boost.level
-    boost_node.querySelector('#boost_power').innerText = boost.power
-    boost_node.querySelector('#boost_price').innerText = boost.price
 }
